@@ -15,14 +15,12 @@ conexion = psycopg2.connect(user='postgres', password='admin', host='127.0.0.1',
 try:
     with conexion:
         with conexion.cursor() as cursor:
-            sentencia = 'UPDATE persona SET nombre=%s, apellido=%s, email=%s WHERE id_persona=%s'
-            valores = (
-                ('Juan', 'Perez', 'jperez@gmail.com', 1),
-                ('Ivonne', 'Gutierrez', 'igutierrez@gmail.com', 2),
-            )
-            cursor.executemany(sentencia, valores)
-            registros_actualizados = cursor.rowcount
-            print(f'Registros Actualizados: {registros_actualizados}')
+            sentencia = 'DELETE FROM persona WHERE id_persona = %s'
+            entrada = input('Proporciona el id_persona a eliminar: ')
+            valores = (entrada,)
+            cursor.execute(sentencia, valores)
+            registros_eliminados = cursor.rowcount
+            print(f'Registros Eliminados: {registros_eliminados}')
     conexion.close()
 except Exception as e:
     print(f'Ocurrio un error: {e}')
