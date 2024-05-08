@@ -15,17 +15,12 @@ conexion = psycopg2.connect(user='postgres', password='admin', host='127.0.0.1',
 try:
     with conexion:
         with conexion.cursor() as cursor:
-            sentencia = 'SELECT * FROM persona WHERE id_persona IN %s'  # %s es llamado placeholder o parametro posicional
-
-            # llaves_primarias = ((1,2,3),)
-            entrada = input('Proporciona los id\'s a buscar (separado por comas): ')
-            llaves_primarias = (tuple(entrada.split(',')),)
-            cursor.execute(sentencia, llaves_primarias)
-            registros = cursor.fetchall()  # Para recuperar todos los registros de la consulta
-            # registros = cursor.fetchone()  # Para recuperar un solo registro de la consulta
-            for registro in registros:
-                print(registro)
-
+            sentencia = 'INSERT INTO persona(nombre, apellido, email) VALUES(%s, %s, %s)'
+            valores = ('Carlos', 'Lara', 'clara@gmail.com')
+            cursor.execute(sentencia, valores)
+            # conexion.commit()  # commit guarda los cambios en la base de datos cuando no se usa el with
+            registros_insertados = cursor.rowcount
+            print(f'Registros Insertados: {registros_insertados}')
     conexion.close()
 except Exception as e:
     print(f'Ocurrio un error: {e}')
