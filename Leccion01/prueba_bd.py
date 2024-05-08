@@ -16,8 +16,12 @@ try:
     with conexion:
         with conexion.cursor() as cursor:
             sentencia = 'INSERT INTO persona(nombre, apellido, email) VALUES(%s, %s, %s)'
-            valores = ('Carlos', 'Lara', 'clara@gmail.com')
-            cursor.execute(sentencia, valores)
+            valores = (
+                ('Marcos', 'Cantu', 'mcantu@gmail.com'),
+                ('Angel', 'Quintana', 'aquintana@gmail.com'),
+                ('Maria', 'Gonzalez', 'mgonzalez@gmail.com')
+            )
+            cursor.executemany(sentencia, valores)
             # conexion.commit()  # commit guarda los cambios en la base de datos cuando no se usa el with
             registros_insertados = cursor.rowcount
             print(f'Registros Insertados: {registros_insertados}')
