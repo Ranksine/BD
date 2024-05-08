@@ -15,16 +15,11 @@ conexion = psycopg2.connect(user='postgres', password='admin', host='127.0.0.1',
 try:
     with conexion:
         with conexion.cursor() as cursor:
-            sentencia = 'INSERT INTO persona(nombre, apellido, email) VALUES(%s, %s, %s)'
-            valores = (
-                ('Marcos', 'Cantu', 'mcantu@gmail.com'),
-                ('Angel', 'Quintana', 'aquintana@gmail.com'),
-                ('Maria', 'Gonzalez', 'mgonzalez@gmail.com')
-            )
-            cursor.executemany(sentencia, valores)
-            # conexion.commit()  # commit guarda los cambios en la base de datos cuando no se usa el with
-            registros_insertados = cursor.rowcount
-            print(f'Registros Insertados: {registros_insertados}')
+            sentencia = 'UPDATE persona SET nombre=%s, apellido=%s, email=%s WHERE id_persona=%s'
+            valores = ('Juan Carlos', 'Juarez', 'jcjuares@gmail.com', 1)
+            cursor.execute(sentencia, valores)
+            registros_actualizados = cursor.rowcount
+            print(f'Registros Actualizados: {registros_actualizados}')
     conexion.close()
 except Exception as e:
     print(f'Ocurrio un error: {e}')
